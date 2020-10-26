@@ -17,8 +17,10 @@ Dans le panel de gauche, cliquez sur l'icone de la mascotte Android et choisisse
 - Appuez sur **Next**
 - Laissez le nom de l'activité (MainActivity) ainsi que le layout (main_activity)
 - Cliquez sur **Finish**
-
   > A ce stated, vous devez avoir un autre module d'application dans votre projet et il est grand temps de vérifier que tout va bien. 
-  Pour cela, repérez le petit marteau (vert) et selectionnez dans le champ à sa droite le module que vous venez de créer puis cliquez sur le signe play 
+  
+- Selectionnez le module `activities`, choisissez le téléphone sur lequel vous voulez déployer le projet, puis cliquez sur run (le bouton play vert) 
+
+![Compilez](/run.png "Compilez le projet")
 
 2. Compilez le projet 
