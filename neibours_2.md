@@ -19,9 +19,6 @@ Dans cette section, nous allons ajouter un nouveau fragment qui permettra de cr�
 [voir le lien](https://material.io/develop/android/components)
 
 
-<details>
-<summary>Exemple TextInput</summary>
-
 ```xml
 <com.google.android.material.textfield.TextInputLayout
     android:id="@+id/addressLyt"
@@ -48,8 +45,6 @@ Dans cette section, nous allons ajouter un nouveau fragment qui permettra de cr�
 >> com.google.android.material.textfield.TextInputEditText
 est le champ de texte qui permet à l'utilisateur de saisir le texte. 
  
-</details>
-
 3. Associer le layout au fragment
 
 4. Gérer l'action sur le bouton enregistre. Quand l'utilisateur clique sur le bouton enregistrer :
@@ -73,9 +68,6 @@ Dans cette section, nous allons modifier l'activité ``MainActivity`` afin de fa
 
 - Déplacez le code de la méthode ``changeFragment`` dans la nouvelle méthode ``showFragment`` puis supprimer la méthode ``changeFragment``
 
-<details>
-<summary>MainActivity.kt</summary>
-
 ``` kotlin
 class MainActivity : AppCompatActivity(), NavigationListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,8 +85,6 @@ class MainActivity : AppCompatActivity(), NavigationListener {
     }
 }
 ```
-</details>
-
 - Modifiez la layout du fragment liste voisins en y ajoutant un bouton floatant (floating button)
 
 ```xml

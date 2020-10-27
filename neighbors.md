@@ -52,7 +52,7 @@ Cliquez sur sync pour resynchroniser le projet
 - Modifiez le layout en y ajoutant un **RecyclerView**
 > Un RecyclerView est une vue de groupe permettant d'afficher une collection de vues à partir d'une collection d'objets. Les RecyclerViews utilisent des adapters pour faire la liaison entre la vue et la collection d'objets. 
 
-<details><summary>Voir le code source</summary>
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -75,11 +75,7 @@ Cliquez sur sync pour resynchroniser le projet
 
 ```
 
-</details>
-
 > Ajoutez un autre layout **neighbor_item** qui represente la manière dont chaque Neighbor sera affiché dans la liste
-
-<details><summary>Voir le code source</summary>
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -132,8 +128,6 @@ Cliquez sur sync pour resynchroniser le projet
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-</details>
-
 - Ajoutez deux icones ic_baseline_delete_24 et ic_baseline_person_outline_24
 Bouton droit sur le dossier drawable puis selectionnez Vector Assets, ckiquez sur l'icone à droite de clip art et choisissez un icon delete. 
 Répétez l'action pour l'icon person. 
@@ -158,7 +152,6 @@ Répétez l'action pour l'icon person.
 ## Modifiez l'activité **MainActivity** pour afficher le fragment 
 
 - Ouvrez le layout de l'activité et modifiez son contenu en y ajoutant un container de fragment 
-<details><summary>Voir le code source</summary>
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -180,8 +173,6 @@ Répétez l'action pour l'icon person.
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
-
-</details>
 
 - Ajoutez une méthode dans l'activité permettant de changer de fragment 
 
@@ -245,7 +236,6 @@ data class Neighbor(
 
 - Dans le package service ajoutez une interface modélisant toutes les actions qu'il est possible d'effectuer sur un ``Neighbor``
 
-<details><summary>Voir le code source</summary>
 
 ```kotlin
 interface NeighborApiService {
@@ -281,12 +271,9 @@ interface NeighborApiService {
 }
 
 ```
-</details>
 
 - Toujours dans le package service, ajoutez une classe ```DummyNeighborApiService```
 > N'ayant pas de web service, nous allons tout gérer en local pour l'instant 
-
-<details><summary>Voir le code source</summary>
 
 ```kotlin
 class DummyNeighborApiService : NeighborApiService {
@@ -491,7 +478,6 @@ class DummyNeighborApiService : NeighborApiService {
 
 }
 ```
-</details>
 
 - Modifiez la classe NeighborRepository
 ```kotlin 
@@ -527,7 +513,6 @@ class NeighborRepository {
 
 - Modifiez la classe pour qu'elle étende la super classe RecyclerView.Adapter 
 
-<details><summary>Voir le code source</summary>
 ```kotlin 
 package com.mbds.myapplication.adapters
 
@@ -577,7 +562,6 @@ class ListNeighborsAdapter(
 
 }
 ```
-</details>
 
 ## Associer l'adapter au recyclerview dans le fragment 
 
