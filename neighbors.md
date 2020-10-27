@@ -650,5 +650,50 @@ Glide.with(context)
 
 > Vous devriez voir les images des utilisateurs qui s'affichent 
 
+### Traiter les événements sur items du recyclerview 
+Dans cette section, nous allons traiter les événements sur les élements du recyclerview. Par exemple, quand l'utilisateur clique sur l'icone supprimer on veut afficher une popup demandant à l'utitilisateur de confirmer la suppression. 
+Pour y arriver, on doit faire communiquer le fragment ``ListNeighborsFragment`` avec l'adapteur. 
+
+> Pour faciliter la communication entre le fragment et l'adateur, on utilise des une interface qui est implémentée dans le fragment et appelée dans l'adapteur. 
+
+- Ajouter une interface dans le package ``adapters``
+
+```kotlin
+    interface ListNeighborHandler {
+        fun onDeleteNeibor(neighbor: Neighbor)
+    }
+```
+
+- Modifiez le fragment ``ListNeighborsFragment`` pour implémenter l'interface ``ListNeighborHandler``
+
+```
+Maintenant c'est à vous de jouer
+```
+
+- Modifiez le constructeur de l'adapteur pour y ajouter en paramtre une instance de l'interface ``ListNeighborHandler``
+
+```
+C'est encore à vous de jouer
+```
+
+- Modifiez la fonction ``onBindViewHolder`` dans ``ListNeighborHandler`` pour intercepter le clique sur le bouton ``delete``. 
+
+> Quand on clique sur le bouton, il faut appeler la fonction ``onDeleteNeibor`` de l'interface. 
+
+> Cette action va déclencher l'appel à la fonction ``onDeleteNeibor`` dans le fragment. 
+
+- Modifiez la fonction ``onDeleteNeibor`` dans le fragment pour afficher une dialogue quand l'utilisateur clique sur le bouton supprimer. 
+
+> Infos sur la dialog 
+ >> Titre : Confirmation 
+ >> Message: Voulez-vous supprimer ce voisin ? 
+ >> Bouton 1: Oui
+ >> Bouton 2: Non 
+
+> Quand l'utilisateur clique sur oui, vous supprimer le voisin passé en paramtre, sinon vous ne faites rien. 
+
+```
+C'est à vous de coder
+```
 
 
