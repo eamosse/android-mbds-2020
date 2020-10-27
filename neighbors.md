@@ -608,6 +608,47 @@ override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 > A ce stade, vous devrez avoir une liste avec le nom de tous les voisins mais il manque les photos. 
 
 
+### Afficher les photos des voisins
+> Nous allons modifier l'adapter afin de télécharger la photo de chaque voisin et les afficher dans le layout. 
+
+> Pour cela, nous allons utiliser la librairie Glide 
+
+- Le téléchargement de l'image nécessite un accès à internet. Pour qu'on puisse utiliser internet, il faut ajouter la permission internet dans le manifest. 
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
+
+- Ajouter les dépendances à la librairie Glide dans le gradle du projet 
+
+```gradle 
+dependencies {
+  ...
+  implementation 'com.github.bumptech.glide:glide:4.11.0'
+  annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+  ...
+}
+```
+
+- Modifier l'adapteur pour télécharger l'image d'un voisin 
+
+```kotlin
+val context = [Trouvez le context ]
+// Display Neighbour Avatar
+Glide.with(context)
+    .load(neighbour.avatarUrl)
+    .apply(RequestOptions.circleCropTransform())
+    .placeholder(R.drawable.ic_baseline_person_outline_24)
+    .error(R.drawable.ic_baseline_person_outline_24)
+    .skipMemoryCache(false)
+    .into(holder.mNeighbourAvatar)
+
+```
+
+- Executez le projet 
+
+> Vous devriez voir les images des utilisateurs qui s'affichent 
 
 
 
