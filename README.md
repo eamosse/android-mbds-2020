@@ -128,5 +128,93 @@ Dans cette section, vous allez modifier le layout de l'activité pour y ajouter 
     - Désactivez le bouton (le griser) après 5 cliques
 
 
+## 7. Changement d'activité
+Dans cette section, nous allons créer une nouvelle activité et la lancer à partir de l'activité initiale (MainActivity)
+
+- Dans le module ``activities``, cliquez sur le dossier **src > main > java > [package]** et choisissez **new > Kotlin File/Class**
+- Dans l'écran qui s'affiche entrez **ComputeActivity** puis selectionnez **Class**
+- Faites hériter la classe  **ComputeActivity** de **AppCompatActivity**
+```kotlin
+class ComputeActiviy : AppCompatActivity(){
+    
+}
+```
+- Créez un layout pour l'activité ``ComputeActiviy``. Faites clique droit sur **res > layout**, **new > Layout Resource File**, nommez le fichier ``compute_activity ``
+
+> Notez la convention de nommage entre les activités et les layouts 
+
+- Modifiez le layout en y ajoutant
+    - deux champs de texte éditables (tout en haut)  
+    - un TextView (en dessous du second champ de texte) 
+    - un bouton tout en bas de l'acran 
+    
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/field_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/nombre_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/field_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:hint="@string/nombre_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/field_1" />
+
+    <TextView
+        android:id="@+id/resultat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/field_2"
+        tools:text="Le résultat s'afficher ici" />
+
+    <Button
+        android:id="@+id/btn_calculer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/calculer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+    
+> Remarquez l'utilisation de l'espace de nom tools, il permet d'attribuer des propriétés qui ne sont utilisées que pour le rendu visuel dans l'éditeur et disparaissent au runtime 
+
+> Remarquez également la référence aux ressources string, cela nous permet de ne pas mettre de textes dans les layouts. 
+
+- Modifiez le fichier **strings.xml** pour y ajouter les nouvelles variables 
+
+```xml
+    <string name="nombre_1">Nombre 1</string>
+    <string name="nombre_2">Nombre 2</string>
+    <string name="calculer">Calculer</string>
+```
+- Modifiez l'activité **ComputeActiviy** pour qu'elle utilise le layout **compute_activity** comme vue. 
+Pour cela, vous devez surcharger la fonction onCreate et utilisez la fonction setContentView. 
+```kotlin
+    C'est à vous de coder cette fois 
+```
+
+
 
 
