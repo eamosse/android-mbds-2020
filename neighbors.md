@@ -510,18 +510,26 @@ class NeighborRepository {
 - Modifiez la classe pour qu'elle étende la super classe RecyclerView.Adapter 
 
 ```kotlin 
+package com.mbds.myapplication.adapters
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.mbds.myapplication.R
+import com.mbds.myapplication.models.Neighbor
+
 class ListNeighborsAdapter(
-    items: List<Neighbor>,
-    listNeighbourListener: ListNeighbourListener,
-    context: Context
+    items: List<Neighbor>
 ) : RecyclerView.Adapter<ListNeighborsAdapter.ViewHolder>() {
     private val mNeighbours: List<Neighbor> = items
-    private val mListNeighbourListener: ListNeighbourListener = listNeighbourListener
-    private val mContext: Context = context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.neighbor_item, parent, false)
-        return ViewHolder(view, mListNeighbourListener)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -534,32 +542,18 @@ class ListNeighborsAdapter(
         return mNeighbours.size
     }
 
-    class ViewHolder constructor(view: View, listNeighbourListener: ListNeighbourListener) :
-        RecyclerView.ViewHolder(view), View.OnClickListener {
+    class ViewHolder(view: View) :
+        RecyclerView.ViewHolder(view) {
         val mNeighbourAvatar: ImageView
         val mNeighbourName: TextView
         val mDeleteButton: ImageButton
-        private val listNeighbourListener: ListNeighbourListener
-
-        override fun onClick(v: View?) {
-            listNeighbourListener.onClickItemNeighbour(adapterPosition)
-        }
 
         init {
             // Enable click on item
             mNeighbourAvatar = view.findViewById(R.id.item_list_avatar)
             mNeighbourName = view.findViewById(R.id.item_list_name)
             mDeleteButton = view.findViewById(R.id.item_list_delete_button)
-            view.setOnClickListener(this)
-            this.listNeighbourListener = listNeighbourListener
         }
-    }
-
-    /**
-     * Interface to catch click interactions on Neighbour item
-     */
-    interface ListNeighbourListener {
-        fun onClickItemNeighbour(position: Int)
     }
 
 }
