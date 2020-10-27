@@ -215,6 +215,47 @@ Pour cela, vous devez surcharger la fonction onCreate et utilisez la fonction se
     C'est à vous de coder cette fois 
 ```
 
+- Ajoutez l'activité dans le Manifest 
+```xml
+    ...
+    <activity android:name=".ComputeActiviy" />
+    ...
+```
+
+- Exécutez le projet 
+
+> Rien n'a changé right ? C'est normal, car on a fait que créer l'activité ComputeActivity etrien fait d'autres. 
+
+- Exercice : 
+    - Modifiez le Manifest pour que l'acitivé ComputeActiviy soit celle qui se lance par défaut
+    - Exécutez le projet 
+    - Modifiez à nouveau le Manifest pour que l'activité MainActivity soit l'activité par défaut 
+    
+- Modifiez le layout de l'activité MainActivity en y ajoutant un autre bouton
+    - qui se positionne tout en bas de l'écran 
+    - le texte du bouton doit être "Faire un calcul"
+    - l'id du bouton doit être btn_compute 
+
+```xml
+    C'est encore à vous 
+```
+
+- Récupérez l'instance du second bouton dans l'activité
+
+```kotlin 
+    A vous
+```
+
+- Interceptez le clique du second bouton et afficher l'activité ComputeActivity
+
+```kotlin 
+    computeButton.setOnClickListener {
+        val intent = Intent(baseContext, ComputeActiviy::class.java)
+        startActivity(intent)
+    }
+```
+
+
 
 
 
