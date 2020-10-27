@@ -48,7 +48,6 @@ Dans le panel de gauche, cliquez sur l'icone de la mascotte Android et choisisse
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 > Notez la propriété id du bouton; celle-ci est nécessaire car il permettra de récupérer le bouton dans le code l'activité
-
 > Compilez et assurez-vous qu'un bouton s'affiche au milieu de la vue
 
 ## 3. Traitez l'action clique sur le bouton 
@@ -58,7 +57,8 @@ On va modifier le code de l'activité afin de récupérer l'instance du bouton p
 ```Kotlin
     private lateinit var clickButton: Button
 ```
-> Remarquez l'utilisation du lateInit sur le bouton. On ne dispose pas de tous les éléments nécessaires pour la création du bouton, par conséquent nous ne pourrons pas l'initialiser lors de la création de l'activité. Le mot clef lateInit permet d'indiquer au compilateur, qu'on le fera plus tard, c'est-à-dire quand la vue est créée. 
+> Remarquez l'utilisation du lateInit sur le bouton. On ne dispose pas de tous les éléments nécessaires pour la création du bouton, par conséquent nous ne pourrons pas l'initialiser lors de la création de l'activité. 
+> Le mot clef lateInit permet d'indiquer au compilateur, qu'on le fera plus tard, c'est-à-dire quand la vue est créée. 
 
 - Initialisez le bouton. Dans la méthode onCreate (juste après le setContentView), recupérez initialisez la variable clickButton. 
 ```Kotlin
@@ -91,9 +91,7 @@ clickButton.setOnClickListener {
 
 - Cliquez sur le bouton 
 > Qu'avez-vous observez ? 
-
 > Pourquoi l'application a planté ? 
-
 > Avez-vous compris le danger des lateInit ? 
 
 ## 5. Comptez le nombre de fois qu'on a cliquez sur le bouton 
@@ -199,7 +197,6 @@ class ComputeActiviy : AppCompatActivity(){
 ```
     
 > Remarquez l'utilisation de l'espace de nom tools, il permet d'attribuer des propriétés qui ne sont utilisées que pour le rendu visuel dans l'éditeur et disparaissent au runtime 
-
 > Remarquez également la référence aux ressources string, cela nous permet de ne pas mettre de textes dans les layouts. 
 
 - Modifiez le fichier **strings.xml** pour y ajouter les nouvelles variables 
