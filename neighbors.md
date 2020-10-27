@@ -210,8 +210,14 @@ Répétez l'action pour l'icon person.
 
 ``` kotlin
 data class Neighbor(
-    val icon: Int,
-    val name: String
+    val id: Long,
+    val name: String,
+    val avatarUrl: String,
+    val address: String,
+    val phoneNumber: String,
+    val aboutMe: String,
+    val favorite: Boolean,
+    val webSite: String
 )
 ```
 
@@ -230,34 +236,34 @@ data class Neighbor(
 ```kotlin
 interface NeighborApiService {
     /**
-     * Get all my Neighbours
+     * Get all my Neighbors
      * @return [List]
      */
-    val neighbours: List<Neighbor?>?
+    val neighbours: List<Neighbor>
 
     /**
-     * Deletes a neighbour
-     * @param neighbour : Neighbour
+     * Deletes a neighbor
+     * @param neighbor : Neighbor
      */
-    fun deleteNeighbour(neighbour: Neighbor?)
+    fun deleteNeighbour(neighbor: Neighbor)
 
     /**
      * Create a neighbour
-     * @param neighbour: Neighbour
+     * @param neighbor: Neighbor
      */
-    fun createNeighbour(neighbour: Neighbor?)
+    fun createNeighbour(neighbor: Neighbor)
 
     /**
      * Update "Favorite status" of an existing Neighbour"
-     * @param neighbour: Neighbour
+     * @param neighbor: Neighbor
      */
-    fun updateFavoriteStatus(neighbour: Neighbor?)
+    fun updateFavoriteStatus(neighbor: Neighbor)
 
     /**
      * Update modified fields of an existing Neighbour"
-     * @param neighbour: Neighbour
+     * @param neighbor: Neighbor
      */
-    fun updateDataNeighbour(neighbour: Neighbor?)
+    fun updateDataNeighbour(neighbor: Neighbor)
 }
 
 ```
@@ -606,8 +612,6 @@ override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 - Exécutez le projet
 
 > A ce stade, vous devrez avoir une liste avec le nom de tous les voisins mais il manque les photos. 
-
-
 
 
 
