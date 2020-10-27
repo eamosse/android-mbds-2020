@@ -3,9 +3,9 @@
 ## Partie 2: Ajouter un nouveau voisin
 Dans cette section, nous allons ajouter un nouveau fragment qui permettra de créer un nouveau voisin et l'ajouter dans la liste. 
 
-### 1. Créer un nouveau fragment ``AddNeighbourFragment``
+### 1. Créer un nouveau fragment 
 
-1. Ajouter un nouveau fragment dans le projet ainsi que la vue associée
+1. Ajouter un nouveau fragment ``AddNeighbourFragment`` dans le projet ainsi que la vue associée
 
 2. Ajouter un layout pour dessiner la vue du fragment ``add_neighbor.xml``
 
@@ -85,6 +85,7 @@ class MainActivity : AppCompatActivity(), NavigationListener {
     }
 }
 ```
+
 - Modifiez la layout du fragment liste voisins en y ajoutant un bouton floatant (floating button)
 
 ```xml
@@ -110,4 +111,92 @@ addNeighbor.setOnClickListener {
         }
 ```
 
-- Compilez et testez 
+- Compilez et testez
+
+## Partie 3 : Gestion de la toolbar 
+Dans cette section, nous allons gérer le thème et styles de l'application ainsi que la toolbar de navigation. 
+
+En effet, jusqu'ici notre application n'affiche pas le titre des écrans ou les options de navigation. Nous allons réctifier cela en ajoutant une toolbar. 
+
+### Ajouter une toolbar 
+Dans une application Android, une toolbar permet gérer la barre d'action modélisation le titre des écrans, ou les options de navigations. 
+
+- Modifiez le layout de l'activité principal pour y ajouter une toolbar. 
+> La toolbar doit se positionner tout en haut de l'écran et les autres vues doivent se positionner sous la toolbar. 
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_weight="1"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:title="@string/app_name" />
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_activity_add" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+```
+
+- Modifiez l'activité pour qu'elle utilise la toolbar pour gérer la navigation 
+```kotlin
+...
+private lateinit var toolbar: Toolbar
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+
+    setContentView(R.layout.activity_main)
+    toolbar = findViewById(R.id.toolbar)
+    setSupportActionBar(toolbar)
+    
+    showFragment(ListNeighborsFragment())
+}
+...
+```
+
+- Ajoutez une fonction setTitle dans l'interface ``NavigationListener`` permettant aux fragments de modifier le titre de la toolbar
+
+```kotlin
+interface NavigationListener {
+    fun showFragment(fragment: Fragment)
+    fun updateTitle(@StringRes title: Int)
+}
+```
+
+- Modifiez l'activité pour changer le titre de la toolbar à l'appel de la fonction ``updateTitle``
+
+```kotlin
+...
+override fun updateTitle(title: Int) {
+    toolbar.setTitle(title)
+}
+...
+
+```
+
+- Modifiez les fragments ``ListNeighborsFragment`` et ``AddNeighborFragment`` pour afficher le bon titre dans la toolbar : 
+    - ListNeighborsFragment --> Liste des voisins
+    - AddNeighborFragment --> Nouveau voisin
+
+- Exécutez et vérifier que tout va bien 
+
