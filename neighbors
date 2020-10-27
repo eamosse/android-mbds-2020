@@ -1,0 +1,28 @@
+# Créez une application permettant de mise en relation entre voisins
+Dans ce TP, vous allez créer une application permettant de mettre en relation des voisins d'une localité. L'objectif est de créer un ensemble d'interfaces permettant: 
+1. D'afficher la liste des voisins 
+2. D'ajouter un voisin 
+3. D'afficher les détails d'un voisin 
+4. De supprimer un voisin
+
+> Dans le cadre de ce TP, la liste des voisins sera gérée en mémoire vive, c'est-à-dire qu'une fois l'application fermée la liste sera réinitialisée. 
+
+**Concepts couverts dans ce TP**
+- Gestion de fragments 
+- Utilisation de recyclerView et des adapteurs
+
+
+## Configuration du projet
+- Créer un un nouveau module dans le projet (le même que le TP précédent) et nommez le **neighbors**
+- Choisissez Empty Activity
+- Cliquez sur Finish 
+
+## Ajoutez un fragment pour la gestion de la liste des voisins 
+> Se référer aux slides du cours pour les notions théoriques sur les fragments 
+>> Un fragment est considéré comme une portion de vue que vient s'ajouter dans une activité et qui rempli une fonction bien déterminée. 
+>> Ils permettent d'avoir une meilleur séparation de code; l'activité n'a plus de logique applicative mais les délgue aux différents fragments. 
+>> L'activité est considérée comme un gestionnaire de fragment et de navigation et la logique applicative est gérée dans les différents fragments. 
+
+- Dans l'activité
+
+
