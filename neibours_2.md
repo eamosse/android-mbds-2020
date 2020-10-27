@@ -11,7 +11,7 @@ Dans cette section, nous allons ajouter un nouveau fragment qui permettra de cr�
 
 > Vous allez devoir vous débrouller seuls, la vue doit ressembler à l'imge ci-dessous 
 
-![Ajoutez un voisin](/neighbors.png "Nouveau voisin")
+![Ajoutez un voisin](/add_neighbour.png "Nouveau voisin")
 
 > Utilisez les composants MaterialComponents, qui permettent de dessiner des composants plus zolies
 
