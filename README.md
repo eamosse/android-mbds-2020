@@ -255,6 +255,20 @@ Pour cela, vous devez surcharger la fonction onCreate et utilisez la fonction se
     }
 ```
 
+- Exécutez le projet puis cliquez sur le bouton "Faire un calcul"
+
+## 7. Exercice : Effectuez le calcul dans l'activité ComputeActivity 
+Dans cette section, vous allez compléter l'activité **ComputeActivity** pour calculer la somme des deux nombres rentrés dans les champs de textes puis afficher le résultat dans le textView. 
+
+Containtes : 
+- Désactivez le bouton que les deux champs de texts ne sont pas renseignés 
+- L'utilisateur ne doit pouvoir rentré uniquement des nombres dans les champs de texts
+
+> Pour vous aider 
+>> Utilisez un TextWatcher pour savoir quand l'utilisateur modifie la valeur des champs de textes 
+>> Utilisez la propriété ```android:inputType``` pour définir le type de valeur autorisée dans les champs 
+
+
 
 
 
