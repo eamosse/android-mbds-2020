@@ -52,6 +52,28 @@ est le champ de texte qui permet à l'utilisateur de saisir le texte.
     - Créer un nouvel objet Neighbor 
     - Ajouter l'objet dans la liste des Neighbors 
 
+> Contraintes 
+
+>> Valider les données des champs du formulaire 
+
+    - Tous les champs sont obligatoires
+
+    - L'email doit être valide (afficher une erreur sous le champ email indiquant à l'utilisateur qu'il y a une erreur)
+
+    - Le bouton reste grisé tant que tous les champs ne sont pas validés
+    
+    - Le téléphone doit être valide (commencant par 06 ou 07 et doit avoir 10 charactères) -- (afficher une erreur sous le champ téléphone indiquant à l'utilisateur que le format doit être 0X XX XX XX XX XX)
+
+    - Le champ bio A propos de moi doit autoriser au maximum 30 charactères 
+
+    - Les champs Image et Website doivent être des liens valides
+
+>> Bonus, quand l'utilisateur rempli le champ Image avec un lien valide, afficher automatiquement un visuel de l'image à la place de l'image par défaut tout en haut. 
+
+<details>
+<summary>Besoin d'aide pour la gestion d'erreurs ou le nombre de charactères max ?</summary>
+C'est par ici, https://material.io/develop/android/components/text-fields.
+</details>
 
 ### 2. Lancer le fragment ``AddNeighborFragment``
 Dans cette section, nous allons modifier l'activité ``MainActivity`` afin de faciliter la gestion du nouveau fragment. 
@@ -99,7 +121,8 @@ class MainActivity : AppCompatActivity(), NavigationListener {
         app:layout_constraintEnd_toEndOf="parent" />
 ```
 
-- Modifiez le fragment de la liste des voisins pour instercepter le click sur le bouton 
+- Modifiez le fragment de la liste des voisins pour instercepter le click sur le bouton
+
 
 > Au clique sur le bouton, afficher le fragment ``AddNeighborFragment``
 
@@ -201,3 +224,38 @@ override fun updateTitle(title: Int) {
 - Exécutez et vérifier que tout va bien 
 
 - Compilez et testez 
+
+## Partie 4 : Internationalisation de l'application
+On va traduire notre application, initialement en français, en anglais. 
+
+- Dans le pannel de gauche, passer sur le mode Android (si ce n'est pas déjà le cas)
+
+- Faites clique droit sur le dossier values puis ``new > Values Resource File ``
+
+- Dans la fenêtre qui s'affiche, ``entrez strings`` dans le champ file Name
+
+- Dans la section ``Available qualifiers``, cliquez Locale puis cliquez sur le bouton ``>>`` pour le selectionner
+
+- Sous Language, selectionnez ``en`` puis cliquez sur ``Ok``
+
+> Une fois remplie, le formulaire devrait ressembler à 
+
+![Add language](/language.png "Add language")
+
+> Si vous déployez le dossier strings dans values, vous devriez voir deux fichiers ``strings.xml`` dont l'un avec ``en entre parenthèse``
+
+>> strings.xml contient les textes par défaut de l'application (en français)
+
+>> strings.xml (en) contient les textes en anglais (il est vide pour l'instant)
+
+- Copiez tout le contenu du fichier strings.xml et collez le dans le fichier strings.xml (en)
+
+- Traduisez les valeurs de chaque item en anglais 
+
+- Allez dans les settings du téléphone (ou de l'émulateur) puis changez la langue du français à l'anglais, ou inversement
+
+- Exécutez le projet, normalement les textes sont traduits en fonction de la langue du téléphone
+
+> Si vous utilisez une langue non supportée (ex. Espagnol), les textes de l'application seront en français
+
+> Vous pouvez ajouter autant de langues que vous souhaitez en répétant la même démarche. 
