@@ -2,8 +2,6 @@
 
 Mise en place d'une application Android newsletter (MBDS News) exploitant les données du site https://newsapi.org/. 
 
-> Instructions pour la mise en place du rojet 
-
 ## Fonctionnalités à developper 
 Les principales fonctionnalités à implémenter incluent (mais ne se limitent pas seulement à :
 
