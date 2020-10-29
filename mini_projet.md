@@ -1,172 +1,72 @@
-# Mise en place de l'architecture du mini projet 
-Afin de s'assurer que tout le monde parte sur les mêmes bases et surtout qu'on respecte au mieux les bonnées pratiques, nous allons construire ensemble l'architecture du mini projet MBDS News. 
+# Mini projet Android (MBDS 2020) 
+
+Mise en place d'une application Android newsletter (MBDS News) exploitant les données du site https://newsapi.org/. 
 
 > Instructions pour démarer le projet 
 >>[Cliquez ici](/project_instructions.md)
 
-## Créer un nouveau projet 
-- Dans Android Studio, créez un nouveau projet ``Newsletter``
-- Assurez-vous que le nom de package est unique
-- Selectionnez Empty Activity comme template 
-- Choisir Kotlin comme langage
-- Activer la gestion de version
-- Commiter les premiers fichers
-- Partager le lien avec les copains du groupe
+## Fonctionnalités à developper 
+Les principales fonctionnalités à implémenter incluent (mais ne se limitent pas seulement à :
 
-## Mise en place du service 
-Dans cette section, nous allons mettre en place le service permettant de récupérer les données depuis l'API https://newsapi.org/
+### Page d'accueil de l'application
+La mise en place de la page d'accueil de l'application dans laquelle les options de consulation sont organisées :
+
+- Par éditeurs (https://newsapi.org/docs/endpoints/sources)
+- Par catégories: Politique, Economie, Education, Pandémie,
+- Par pays : France, Chine, Etats Unis, Angleterre….
+
+### Liste des articles par catégorie
+Quand l'utilisateur selectionne un article sur la page d'accueil, afficher tous les articles correspondant à cette catégorie dans un fragment. 
+
+La vue doit contenir : 
+ - Le titre de l'article, 
+ - un appercu du contenu du message (3 lignes maximum)
+ - L'auteur de l'article
+ - La date de publication 
+ - L'image liée à l'article
+ - un bouton permettant d'ajouter un article en favori (un coeur). Le coeur creux si l'article n'est pas en favori, sinon il est plein.  
+
+### Gestion des favoris 
+Quand l'utilisateur clique sur l'icone favori, il faut sauvegarder l'article dans une base de données locales.
+
+Définir une vue permettant à l'utilisateur de voir tous ses articles favoris. Le lien vers cette vue doit être placée dans la barre de navigation en haut à droite dans la page d'accueil et dans la la vue liste d'articles. 
+
+### Détail d'un article
+Quand l'utilisateur clique sur un article, créer une vue permettant d'afficher le détail de l'article. Cette vue doit afficher toutes les informations de l'article ainsi qu'un lien vers le site de l'éditeur. 
+Le lien doit ouvrir une page web dans un navigateur externe.
+
+> Ajouter une option dans la barre d'action permettant à l'utilisateur d'ajouter en favori l'article qu'il est entrain de visualiser. 
+
+### Vue à propos de nous
+Ajouter une vue permettant d'afficher des détails sur l'application. Cette vue doit afficher : 
+
+- Les noms et prénoms des membres du groupe (une photo aussi si vous le voulez)
+- Un lien vers le repo du projet (sur Github)
+- La liste des librairies externes utilisées dans l'applications
+- La liste des fonctionnalités de l'application 
+
+Ajouter une option en haut à droite de la toolbar permettant d'afficher la vue à propos de nous. 
+
+## Contraintes 
+- Le projet doit être developpé en Android natif 
+- Groupes de 3 personnes
+    - pas de personnes seules 
+    - un groupe de 2 ou de 4 si le nombre d'étudiants n'est pas multiple de 3
+- Prioriser le langage Kotlin 
+- Les vues doivent être developpées en XML
+- Suivre le Design Pattern MVC
+    - Utiliser les package pour regrouper les composants du projet
+- N'utiliser qu'une seule activité
+> Attention, l'activité doit gérer uniquement les parties communes entre les différentes vues (comme la toolbar) et la gestion des fragments. 
+- Utiliser git pour la gestion des versions
+> Je me baserait sur les commits pour controler le travail de chacun. Cela dit, il n'y aura pas une note globale pour le groupe. 
 
 
-- Ajoutez la permission internet dans le manifest
-- Ajoutez les dépendances aux librairies Retrofit, OkHTTP et Gson
-```gradle
-//Retrofit : Pour consommer les web services RestFul
-implementation "com.squareup.retrofit2:retrofit:2.6.0"
-//okhttp : Effectuer les requêtes HTTP (utilisée par Retrofit)
-implementation "com.squareup.okhttp3:okhttp:3.12.0"
-//Gson: Convertir les Json en objet POJ
-implementation "com.google.code.gson:gson:2.8.5"
-//Gson Converter : Utilisé par Retrofit pour convertir les objets JSON en POJO
-implementation "com.squareup.retrofit2:converter-gson:2.4.0"
-//Retrofit Logger: Permet d'arricher les logs des requêtes
-implementation "com.squareup.okhttp3:logging-interceptor:4.2.1"
-//Coroutines : Pour faire du multithreading
-implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7"
-implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7"
-implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
-```
-- Créez un sous-package data
-> On va placer dans ce package toutes les classes permettant de traiter les données de l'application. 
-- Ajoutez une interface ApiService listant toutes les fonctionnalités de l'application necessitant des données. 
-> Pour l'instant, on va ajouter uniquement une méthode getArticles(), vous pourrez le modifier après en fonction des besoins. 
+## Modalités de rendus 
 
-> Créer une classe Article modélisant un objet article telque retourné apr le webservice
+- Date limite : 22 Novembre 2020
+- Livrables 
+    - Envoyer un mail à eamosseatgmaildotcom avec le lien vers le repo du projet ainsi que les noms des membres du groupe
 
-```kotlin
-interface ArticleService {
-    fun getArticles(): List<Article>
-}
-```
-
-- Configurer Retrofit 
-> Retrofit utilise aussi des interfaces pour modéliser les différentes actions d'une API REST. 
-- Ajoutez une interface ``RetrofitApiService``
-```kotlin
-interface RetrofitApiService {
-    //GET --> On lance une requête de type GET
-    // everything est l'action du web service qu'on veut apeler
-    // Elle sera concaténée avec l'url prédéfini dans retrofit 
-    @GET("/everything")
-    fun list(): Call<List<Article>>
-}
-```
-
-- Ajoutez une implémentation de l'interface ``ArticleService``, que vous pouvez appeler ``ArticleOnlineService`` pour récupérer les articles depuis le web serivice 
-
-```kotlin
-
-class ArticleOnlineService : ArticleService {
-    private val service: RetrofitApiService
-
-    init {
-        val retrofit = buildClient()
-        //Init the api service with retrofit
-        service = retrofit.create(RetrofitApiService::class.java)
-    }
-
-    /**
-     * Configure retrofit
-     */
-    private fun buildClient(): Retrofit {
-        val httpClient = OkHttpClient.Builder().apply {
-            addLogInterceptor(this)
-            addApiInterceptor(this)
-        }.build()
-        return Retrofit
-            .Builder()
-            .baseUrl(apiUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(httpClient)
-            .build()
-    }
-
-    /**
-     * Add a logger to the client so that we log every request
-     */
-    private fun addLogInterceptor(builder: OkHttpClient.Builder) {
-        val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
-        builder.addNetworkInterceptor(httpLoggingInterceptor)
-    }
-
-    /**
-     * Intercept every request to the API and automatically add
-     * the api key as query parameter
-     */
-    private fun addApiInterceptor(builder: OkHttpClient.Builder) {
-        builder.addInterceptor(object : Interceptor {
-            override fun intercept(chain: Interceptor.Chain): Response {
-                val original = chain.request()
-                val originalHttpUrl = original.url
-                val url = originalHttpUrl.newBuilder()
-                    .addQueryParameter("apikey", apiKey)
-                    .build()
-
-                val requestBuilder = original.newBuilder()
-                    .url(url)
-                val request = requestBuilder.build()
-                return chain.proceed(request)
-            }
-        })
-    }
-
-    override fun getArticles(): List<Article> {
-        return service.list().execute().body() ?: listOf()
-    }
-
-    companion object {
-        private const val apiKey = "YOUR_API_KEY"
-        private const val apiUrl = "THE_API_URL"
-    }
-
-}
-```
-
-## Consommer le service dans un fragment 
-L'accès à internet bloque le thread principale, c'est en effet une opération entrée/sortie via le protocole http. Par conséquent, les appels aux différentes méthodes du service doivent se faire dans un thread seconde. 
-
-En kotlin, les coroutines peuvent être utilisés pour gérer plus aisément les threads secondaires et les tâches asynchrones. 
-
-Pour avoir plus de détails sur les coroutines, consultez ce lien https://kotlinlang.org/docs/reference/coroutines/coroutines-guide.html 
-
-Dans un fragment, il suffit d'utiliser l'objet ``lifecycleScoep`` pour changer de thread, passé du thread principale à un thread secondaire et inversément. 
-
-- Récupérer la liste des articles dans un fragment 
-
-```kotlin
-/**
-     * Récupère la liste des articles dans un thread secondaire 
-     */
-    private fun getArticles() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val articles = ArticleRepository.getInstance().getArticles()
-        }
-    }
-
-    /**
-     * Rempli le recyclerview avec les données récupérées dans le web service 
-     * Cette action doit s'effectuer sur le thread principale 
-     * Car on ne peut mas modifier les éléments de vue dans un thread secondaire 
-     */
-    private fun bindData(articles: List<Article>) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            //créer l'adapter 
-            //associer l'adapteur au recyclerview 
-        }
-    }
-
-```
-
-## Sauvegarder des données dans une base de données locale 
-https://developer.android.com/topic/libraries/architecture/room?gclid=CjwKCAjw0On8BRAgEiwAincsHBXJ_ek_uEx0SCQsdUeh6IVIUuSmtrkHynCnqc9FgyUlnt7la6n_mBoCcIQQAvD_BwE&gclsrc=aw.ds 
+## Coaching ? 
+Si vous avez besoin d'aide sur un sujet bloquant ou si vous avez un doute sur quoi que ce soit, n'hésitez pas à m'envoyer un mail. 
