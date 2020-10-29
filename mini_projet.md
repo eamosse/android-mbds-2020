@@ -3,7 +3,7 @@ Afin de s'assurer que tout le monde parte sur les mêmes bases et surtout qu'on 
 
 > Instructions pour démarer le projet 
 
-[Cliquez ici](/projet_MBDS_2020)
+[Cliquez ici](./projet_MBDS_2020)
 
 ## Créer un nouveau projet 
 - Dans Android Studio, créez un nouveau projet ``Newsletter``
