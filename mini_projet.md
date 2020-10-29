@@ -2,12 +2,7 @@
 Afin de s'assurer que tout le monde parte sur les mêmes bases et surtout qu'on respecte au mieux les bonnées pratiques, nous allons construire ensemble l'architecture du mini projet MBDS News. 
 
 > Instructions pour démarer le projet 
-
-<<<<<<< HEAD
-[Cliquez ici](/project_instructions.md)
-=======
-[Cliquez ici](./projet_MBDS_2020.md)
->>>>>>> 996da907bf5268b5d1d5c0193ec5d6ff9a6affcb
+>>[Cliquez ici](/project_instructions.md)
 
 ## Créer un nouveau projet 
 - Dans Android Studio, créez un nouveau projet ``Newsletter``
