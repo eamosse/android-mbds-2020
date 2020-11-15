@@ -37,7 +37,21 @@ implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
 - Ajoutez une interface ApiService listant toutes les fonctionnalités de l'application necessitant des données. 
 > Pour l'instant, on va ajouter uniquement une méthode getArticles(), vous pourrez le modifier après en fonction des besoins. 
 
-> Créer une classe Article modélisant un objet article telque retourné apr le webservice
+> Créer une classe ArticleResponse modélisant un objet article telque retourné par le webservice
+```kotlin
+data class ArticleResponse(
+val status: String, 
+val totalResults: Int, 
+val articles: List<Article>
+)
+
+data class Article(
+val author: String, 
+val title: String, 
+val description: String,
+/**Ajouter les autres attributs **/
+)
+```
 
 ```kotlin
 interface ArticleService {
@@ -54,7 +68,7 @@ interface RetrofitApiService {
     // everything est l'action du web service qu'on veut apeler
     // Elle sera concaténée avec l'url prédéfini dans retrofit 
     @GET("/everything")
-    fun list(): Call<List<Article>>
+    fun list(): Call<List<ArticleResponse>>
 }
 ```
 
@@ -119,7 +133,7 @@ class ArticleOnlineService : ArticleService {
     }
 
     override fun getArticles(): List<Article> {
-        return service.list().execute().body() ?: listOf()
+        return service.list().execute().body()?.articles ?: listOf()
     }
 
     companion object {
