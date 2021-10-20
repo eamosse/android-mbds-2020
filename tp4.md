@@ -5,26 +5,27 @@ Jusqu'ici les données de l'application étaient gérées en mémoire, par cons�
 
 Nous allons utiliser une base de données pour gérer la persistance afin que les données persistent au redemarrage de l'application. 
 
-## Partie 0: Créer une nouvelle branche dans le TP3
-Ajouter une branche room dans le reposiroty du TP 3.
+## Partie 0: Créer une nouvelle branche
+Ajouter une nouvelle branche (appelez-le room) dans le reposiroty des TPs précédents.
 
 ## Partie 1: Mise en place de l'architecture du code 
-Le schéma suivant représente l'architecture du code de l'applization 
-![Ajoutez un voisin](/architecture.png "Nouveau voisin")
+Le schéma suivant représente l'architecture du code de l'application 
+![Architecture](/architecture.png "Nouveau voisin")
 
 ### Prenons le temps de comprendre l'architecture du projet
-La communinauté android a adopté dans les récentes années le pattern MVVM (Model View View Model). Cette approche permet une meilleur séparation entre les différentes couches de l'application : graphiques, modèles métiers et accès aux données. 
+La communinauté android a adopté dans les récentes années le pattern MVVM (Model View View Model). Cette approche permet une meilleur séparation entre les différentes couches de l'application : vues, modèles métiers et accès aux données. 
 
 Le schéma ci-dessus représente le schéma global des projets développés selon le pattern MVVM. 
 
-**UI Controller** : composant d'architecture qui regroupe les vues du module. Il comprend généralement les activités et les fragments. 
+**UI Controller** : composant d'architecture qui regroupe les vues de l'application. Il comprend généralement les activités et les fragments. 
 
-**ViewModel** : Composant d'architecture qui regroupe les view models. En Android, un viewmodel est un composant du SDK permettant de gérer les données de la vue. Pendant le cycle de vie d'une application, les fragments et activités peuvent être détruits puis recréés par le système. Ainsi pour éviter de perdre les données déjà chargées dans la vue, suite à une rotation de l'écran par exemple, on utilise les viewmodels qui ne se détruisent pas quand les composants de vues sont recréées.
+**ViewModel** : Composant d'architecture qui regroupe les composants qui gère les données des vues. En Android, un viewmodel joue le rôle degestionnaire de données pour les vues. Cela dit, à partir de maintenant, je ne veux plus voir de logique métier dans les fragments et les activités. Pendant le cycle de vie d'une application, les fragments et activités peuvent être détruits puis recréés par le système. Ainsi pour éviter de perdre les données déjà chargées dans la vue, suite à une rotation de l'écran par exemple, on utilise les viewmodels qui ne se détruisent pas quand les composants de vues sont recréées.
 
-**Repository** : Contrairement aux composants de vues et aux viewmodels, les repositories ne sont pas des composants du SDK. Ce sont des classes utilitaires utilisées pour gérer les différentes sources de données d'une application. Ainsi, le repository fait le pont entre les données de l'application et les viewmodels.
+**Repository** : Contrairement aux composants de vues et aux viewmodels, les repositories ne sont pas des composants du SDK. Ce sont des classes utilitaires utilisées pour gérer les sources de données d'une application. Ainsi, le repository fait le pont entre les données de l'application et les viewmodels. Le repository garantit une certaine cohérence au niveau des données traitées par les viewmodels et les activités. 
 
 **Data Source** : Composant d'architecture destinée à la gestion des données dans une application Android. Une application Android peut utiliser plusieurs sources : bases de données locales, web services etc. 
-Ainsi, dans le schéma d'architecture la source de données est une base de données SQLLite sur le téléphone. 
+
+Ainsi, dans ce TP la source de données est une base de données SQLLite gérée avec l'ORM Room. Bien sure dans le TP suivant nous allons utiliser un service web. 
 
 ### Réorganisation du code de l'application
 Nous allons réorganiser le code de l'application pour qu'il réflète mieux l'architecture du projet tel que défini ci-dessus. 
@@ -48,17 +49,14 @@ A ce stade, les packages du projet devraient être organisés comme sur la figur
 
 ## Partie 2: Mise en place de la base de données avec Room
 
-Room est une ORM (Object Relational Mapper) qui permet de manipuler les tables d'une base de données SQLite en utilisant uniquement des classes, interfaces et des méthodes. Room fait partie de la suite Jetpacks. 
-Pour plus d'informations consulté la documentation ici https://developer.android.com/training/data-storage/room. 
+Room est un ORM (Object Relational Mapper) qui permet de manipuler les tables d'une base de données SQLite en utilisant uniquement des classes, interfaces et des méthodes. Pour plus d'informations, consultez la documentation ici https://developer.android.com/training/data-storage/room. 
 
-Composants de Room : 
-**Entity** : Classe permettant de modéliser un objet métier qui sera représenté dans la base de données comme une table. 
+Composants Room : 
+**Entity** : Classe permettant de modéliser un objet métier, cette classe sera représentée dans la base de données comme une table. 
 Concrètement : 
 - Le nom de l'entité représente le nom de la classe
 - Les attributs de l'entité représentent les colonnes de la table 
-- Les instances de l'entité représente les lignes de la table. 
-
-Il existe autant d'entités que de tables dans la base de données. 
+- Les instances de l'entité représentent les lignes de la table. 
 
 **Database** : Classe qui modélise la base de données sous forme d'objets. 
 
@@ -78,11 +76,11 @@ Modifier le fichier ```build.gradle``` du module de l'application.
   kapt "androidx.room:room-compiler:$room_version"
 
 ```
-> Resync le projet, gradle téléchargera automatiquement les dépendances
+> Resynchronise le projet, gradle téléchargera automatiquement les dépendances
 
 ### 2. Ajouter une nouvelle entité
 
-- Dans le package ```room```, créer un nouveau package ```entities```. Ajouter une classe ```NeighborEntity``` dans le package ```entities```
+- Dans le package ```room```, créer un nouveau package ```entities``` et ajouter une classe ```NeighborEntity```
 
 ```Kotlin
 @Entity(tableName = "neighbors")
@@ -100,9 +98,9 @@ class NeighborEntity(
 ```
 > Observez bien les variables: 
 - id est un val et c'est la clef primaire
-- address est un val car on ne veut pas qu'on puisse modifier l'adresse d'un voisin; c'est bête mais vous comprenez l'idée
+- address est un val car on ne veut pas qu'on puisse modifier l'adresse d'un voisin; c'est bête mais vous avez compris l'idée
 - website peut être null, tous les voisins ne sont pas des geeks. 
-- favorite est une variable non obligatoire, car elle vaut false par défaut
+- favorite est une variable non obligatoire, car elle vaut false par défaut et elle est modifiable car on peut ajouter ou enlever un voisin en favori à volonté
 
 
 ### 3. Ajouter une DAO 
@@ -155,11 +153,11 @@ abstract class NeighborDataBase : RoomDatabase() {
 > Pour mieux comprendre : 
 - L'annotation ```@Database``` permet de définir les entités et la version de la base de données. 
 
-- Une base de données relationnelle peut contenir plusieurs tables, par conséquent l'attribut entities de l'annotation permet de définir plusieurs entités. 
+- Une base de données relationnelle peut contenir plusieurs tables, par conséquent l'attribut entities de l'annotation permet de définir les entités gérées par la base de données. 
 
 - Le numéro de version est très important car il permet d'indiquer à Room quand le schéma de la BDD change. Ainsi, à chaque modification du modèle, il faut incrémenter le numéro de version. 
 
-- La classe qui modélise la base de données doit être abstraite, c'est room qui générera l'implémentation. 
+- La classe qui modélise la base de données doit être abstraite, Room générera l'implémentation. 
 
 - Les DAOs sont référencés comme des méthodes abstraites dans la classe modélisant la base de données. Les implémentations seront générées par Room. 
 
@@ -179,8 +177,9 @@ class RoomNeighborDataSource(application: Application) : NeighborDatasource {
     private val dao: NeighborDao = database.neighborDao()
 
     private val _neighors = MediatorLiveData<List<Neighbor>>()
-
+    
     init {
+        
         _neighors.addSource(dao.getNeighbors()) { entities ->
             _neighors.value = entities.map { entity ->
                 entity.toNeighbor()
@@ -210,11 +209,20 @@ class RoomNeighborDataSource(application: Application) : NeighborDatasource {
 
 ```
 
-- Dans le package ```dal```, ajouter un nouveau package ```utilis``` et dans ce nouveau package ajouter un fichier Kotlin ```NeighborMapper.kt```. 
+> Petite analyse 
+
+- Cette classe implémente ```NeighborDatasource``` qui lui force à avoir le même comportement que la classe ```InMemoryNeighborDataSource```. Ainsi, la seule différence entre les deux sources de données est le mode de persistance. 
+
+- Ici on a utilisé un ```MediatorLiveData``` qui nous permet d'observer les changements sur la base de données et appliquer des modifications sur les données renvoyées par la BDD avant de les afficher à l'utilisateur. 
+
+#### Convertion de données 
+A ce stade, la base de données à son modèle de données qui est différente de celle de la vue. Plus tard, quand on va rajouter des web services, eux aussi vont avoir leur propre modèle de données. Un des principes du clean architecture consiste à utiliser un modèle dédié pour chaque couche et de définir des routines de conversion quand il faut faire passer des données d'une couche à l'autre. 
+
+- Dans le package ```dal```, ajouter un nouveau package ```utils``` et dans ce nouveau package ajouter un fichier Kotlin ```NeighborMapper.kt```. 
 
 - Créer une fonction d'extension dans ```NeighborMapper.kt``` permettant de convertir une instance de ```NeighborEntity``` en ```Neighbor```
 
-> Les fonctions d'extension permettent d'implémenter une fonction dans une classe sans la surcharger. 
+> Rappelez-vous, les fonctions d'extension permettent d'implémenter une fonction dans une classe sans la surcharger. 
 
 ```Kotlin
 fun NeighborEntity.toNeighbor() = Neighbor(
@@ -229,25 +237,11 @@ fun NeighborEntity.toNeighbor() = Neighbor(
 )
 ```
 
-> Petite analyse 
-
-- Cette classe implémente ```NeighborDatasource``` qui lui force à avoir le même comportement que la classe ```InMemoryNeighborDataSource```. Ainsi, la seule différence entre les deux sources de données est le mode de persistance. 
-
-- Ici on a utilisé un ```MediatorLiveData``` qui nous permet d'observer les changements sur la base de données et appliquer des modifications sur les données renvoyées par la BDD avant de les afficher à l'utilisateur. 
-
-Cette étape est importante car la base de données retourne une liste de ```NeighborEntity``` alors que la vue attend une liste de ```Neighbor```. 
-
-Là encore on est face à un principe de clean architecture. La base de données à son modèle données qui est différente de celle de la vue. 
-
-
-Pour faciliter la communication entre la couche de données et la vue, il faut créer une routine permettant de convertir les données au bon format attendu par la couche de destination. 
-
-Ici, on veut renvoyer des données de la base de données à la vue, on a besoin d'une méthode qui convertit une entité en modèle métier. Pour cela l'instance du ```MediatorLiveData``` observe les changements sur les données de la BDD et quand elles changent on applique une conversion sur les données avant de mettre à jour le live data. 
-
 ### 6. Adapter le repository 
-La data source ```RoomNeighborDataSource``` a besoin d'une instance de l'application pour s'initialiser; en fait c'est pas la base de données qui en a besoin. 
-
+La data source ```RoomNeighborDataSource``` a besoin d'une instance de l'application pour s'initialiser; en fait c'est la base de données qui en a besoin. 
 Pour cela, nous allons modifier le repository pour qu'elle accepte en paramètre une instance d'application. 
+
+> Ce n'est pas très propre de faire cela, on pourrait faire mieux en utilisant des libraires d'injection de dépendances comme Hilt (https://developer.android.com/training/dependency-injection/hilt-android). Pour les plus curieux, ce sera votre point bonus. 
 
 ### 1. Modifier le repository
 
@@ -280,7 +274,7 @@ class NeighborRepository private constructor(application: Application) {
 
 > On essaie de comprendre ? 
 
-- On veut maitriser l'instanciation du repositoty, on met son constructeur en private.
+- On veut maitriser la création du repositoty, on met son constructeur en private.
 
 - On veut que le reposirory soit un singleton, on crée une méthode statique pour l'initialiser et on rend son constructeur private. Ainsi, on ne pourra pas l'instancier à lextérieur de la classe. 
 
@@ -305,9 +299,9 @@ private fun setData() {
 
 > Essayez de compiler et tester. Que remarquez-vous ? Pourquoi ? 
 
-- Vous devriez avoir une page blanche, ce qui est logique car l'a base de données est vide. 
-
 ### Ajouter des données dans la BDD
+Afin d'éviter d'avoir une base de données vide, nous allons modifier la classe qui gère la base de données pour y insérer des données de tests à la création de la base de données. 
+
 - Ajouter un callback lors de la l'instanciation de la BDD pour intercepter l'événement de création de la BDD. 
 ```Kotlin
 fun getDataBase(application: Application): NeighborDataBase {
@@ -336,12 +330,10 @@ fun getDataBase(application: Application): NeighborDataBase {
             }
         }
 ```
-> Nous avons ajouté un callback lors de l'instanciation de la base de données pour intercepté la création de la base de données. 
-
 > Compilez et testez
 
 ## Partie 3: Injection de dépendance
-Notre repository fonctionne mais le processus permettant de récupérer son instance est un peu lourd; on va l'améliorer en utilisant l' injection de dépendance. 
+Notre repository fonctionne mais le processus permettant de récupérer son instance est un peu lourd; on va l'améliorer en utilisant l'injection de dépendance. 
 
 - Sous le package principal du projet, créer un nouveau package ```di``` (pour dependency injection) et dans ce package ajouter une classe ```DI.kt```
 ```Kotlin
@@ -353,6 +345,10 @@ object DI {
 }
 ```
 
+> Il existe des librairies qui permettent de gérer l'injection de dépendance plus proprement 
+- Hilt (https://developer.android.com/training/dependency-injection/hilt-android)
+- Koin (https://insert-koin.io/)
+
 - Modifier la méthode onCreate de l'activity ```MainActivity``` pour instancier le repository once for all :) 
 ```Kotlin
 override fun onCreate(savedInstanceState: Bundle?) {
@@ -361,11 +357,6 @@ override fun onCreate(savedInstanceState: Bundle?) {
         ...
     }
 ```
-
-> Pour récupérer l'instance du repository dans le ViewModel il suffit d'appeler ```DI.repository``` 
-
-- Remplacer les références à ```Repository.getInstance()``` par ```DI.repository``` 
-
 
 ## Partie 4: Utiliser un View Model 
 Notre architecture n'est pas totalement clean, car le fragment appel directement le repository.
